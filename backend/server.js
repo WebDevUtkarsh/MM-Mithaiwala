@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { connectRedis } from "./config/redis.js";
 import connectDB from "./config/db.js";
 import userRoute from "./routes/user.routes.js"
+import productRoute from "./routes/product.routes.js"
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/users', userRoute)
+app.use('/api/products', productRoute)
 
 app.get("/", (req, res) => {
   res.send("Sweets & Snacks Store Backend Running...");

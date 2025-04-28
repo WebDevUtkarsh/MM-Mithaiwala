@@ -30,7 +30,6 @@ export const registerUser = async (req, res) => {
 };
 
 export const authUser = async (req, res) => {
-  try {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
@@ -46,8 +45,19 @@ export const authUser = async (req, res) => {
     } else {
       res.status(401).json({ message: "Invalid email or password" });
     }
-  } catch (error) {
-    return res.status(500).json({ message: "Login error" });
-    console.error(error);
-  }
 };
+
+export const getUserProfile = async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    });
+  } else {
+    res.status(401).json({ message: "User not found" });
+  }
+}
