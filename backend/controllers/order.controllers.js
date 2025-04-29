@@ -72,7 +72,7 @@ export const placeOrder = async (req, res) => {
 
       const user = await User.findById(userId);
 
-      const invoicePath = path.join(__dirname, '../../invoices', `${newOrder.invoiceId}.pdf`);
+      const invoicePath = path.join(__dirname, '../invoices', `${newOrder.invoiceId}.pdf`);
       await generateInvoice(newOrder, user, invoicePath);
       await sendInvoiceEmail(user.email, user.name, invoicePath, newOrder.invoiceId);
   
