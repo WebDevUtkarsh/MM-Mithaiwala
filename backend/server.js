@@ -1,11 +1,12 @@
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import { connectRedis } from "./config/redis.js";
 import connectDB from "./config/db.js";
 import userRoute from "./routes/user.routes.js"
 import productRoute from "./routes/product.routes.js"
+import cartRoute from './routes/cart.route.js'
+import orderRoute from './routes/order.route.js'
 
 dotenv.config();
 
@@ -19,8 +20,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/users', userRoute)
-app.use('/api/products', productRoute)
+app.use('/api/users', userRoute);
+app.use('/api/products', productRoute);
+app.use('/api/carts', cartRoute);
+app.use('/api/orders', orderRoute)
 
 app.get("/", (req, res) => {
   res.send("Sweets & Snacks Store Backend Running...");
