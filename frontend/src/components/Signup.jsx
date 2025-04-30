@@ -1,28 +1,28 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 
-const Login = () => {
+const Signup = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [data, setData] = useState({});
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
-  const { login } = useAuth();
-
-  const handleLogin = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:8080/api/users/login", {
+      const res = await axios.post("http://localhost:8080/api/users/register", {
+        name,
         email,
         password,
       });
 
       const user = res.data;
-      login(user);
+      setData(user);
 
       localStorage.setItem("token", user.token);
 
@@ -40,11 +40,19 @@ const Login = () => {
     <div className="flex items-center justify-center w-full">
       <div className="w-1/2 flex items-center justify-center">
         <div className="flex items-center justify-center flex-col space-y-8 pt-8">
-          <h1 className="text-3xl">Welcome back! Login</h1>
+          <h1 className="text-3xl">Create an Account!</h1>
           <form
-            onSubmit={handleLogin}
+            onSubmit={handleSignUp}
             className="flex flex-col items-center justify-center space-y-3"
           >
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              type="text"
+              placeholder="Enter your name"
+              className="border px-5 py-1.5 rounded-lg"
+              required
+            />
             <input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -65,12 +73,12 @@ const Login = () => {
               type="submit"
               className="cursor-pointer border bg-black text-white px-8 py-2 rounded-xl"
             >
-              Login
+              Sign Up
             </button>
             <p>
-              Don't have an account?{" "}
+              Already have an account?{" "}
               <span className="text-blue-400 cursor-pointer">
-                <Link to={"/signup"}>Sign Up</Link>
+                <Link to={"/login"}>Login</Link>
               </span>
             </p>
           </form>
@@ -88,4 +96,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
